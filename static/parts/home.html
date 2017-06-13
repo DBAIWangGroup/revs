@@ -1,0 +1,59 @@
+<div class="full-center-outer home-container">
+    <div class="full-center-middle">
+        <div class="container">
+            <div class="row text-center">
+                <img src="/static/assets/image/logo-256.png" class="app-logo-big">
+                <h1>{{app.name}}</h1>
+                <blockquote>
+                    <p>{{app.quote.content}}</p>
+                    <footer>{{app.quote.author}} in <cite>{{app.quote.title}}</cite></footer>
+                </blockquote>
+            </div>
+            <div class="row">
+                <div class="col-sm-5 form-group">
+                    <label for="entity_source" class="form-label">Source Entity</label>
+                    <div class="input-group">
+                        <input type="text" id="entity_source" class="form-control input-lg" entity-input data-provide="typeahead" autocomplete="off" placeholder="e.g. Albert Einstein" ng-model="query.source_name" item="query.source">
+                        <span class="input-group-btn">
+                            <button ng-click="explore_source()" class="btn btn-default btn-lg" type="button"><span class="glyphicon glyphicon-search"></span></button>
+                        </span>
+                    </div>
+                </div>
+                <div class="col-sm-5 form-group">
+                    <label for="entity_target" class="form-label">Target Entity</label>
+                    <div class="input-group">
+                        <input type="text" id="entity_target" class="form-control input-lg" entity-input data-provide="typeahead" autocomplete="off" placeholder="e.g. Isaac Newton" ng-model="query.target_name"  item="query.target">
+                        <span class="input-group-btn">
+                            <button ng-click="explore_target()" class="btn btn-default btn-lg" type="button"><span class="glyphicon glyphicon-search"></span></button>
+                        </span>
+                    </div>
+                </div>
+                <div class="col-sm-2 form-group">
+                    <label for="max_length" class="form-label">Max Path Length</label>
+                    <div class="input-group">
+                        <div class="input-group-addon input-lg"><span class="glyphicon glyphicon-signal"></span></div>
+                        <select id="max_length" class="form-control input-lg" ng-model="query.maxLength" ng-options="l for l in config.maxLengths"></select>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-4 col-sm-offset-4">
+                    <button class="btn btn-primary btn-block btn-lg btn-explain" ng-click="explain()">Explain Relatedness</button>
+                </div>
+            </div>
+        </div>
+        <footer class="text-center">{{app.copyright}}</footer>
+    </div>
+</div>
+<div class="mini-auth">
+    <ul class="nav nav-pills navbar-right">
+        <li class="dropdown">
+            <a href class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span> {{auth.user.name}} <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+                <li ng-hide="auth.user"><a href ng-click="showAuthModal('Sign In')">Sign In</a></li>
+                <li ng-hide="auth.user"><a href ng-click="showAuthModal('Sign Up')">Sign Up</a></li>
+                <li ng-show="auth.user"><a href ng-click="showAuthModal('Sign Out')">Sign Out</a></li>
+            </ul>
+        </li>
+    </ul>
+</div>

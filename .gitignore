@@ -1,0 +1,11 @@
+*.iml
+target/
+.idea/
+*.ipr
+*.iws
+hs_err_pid*
+*.pkl*
+server.log
+*.pyc
+.venv/
+config_local.json

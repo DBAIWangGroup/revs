@@ -1,0 +1,4 @@
+pymongo
+elasticsearch
+psycopg2
+flask

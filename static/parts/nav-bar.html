@@ -1,0 +1,57 @@
+<nav class="navbar navbar-default navbar-fixed-top app-navbar" ng-class="{'show': ui.showNav}" ng-controller="NavBarController">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button id="btn-nav-menu" type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                    data-target="#navbar-collapse" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#/">
+                <img class="app-logo" src="/static/assets/image/logo-64.png"><span class="app-name">{{app.name}}</span>
+            </a>
+        </div>
+        <div class="collapse navbar-collapse" id="navbar-collapse">
+            <form class="navbar-form navbar-left" role="search">
+                <div class="form-group" ng-hide="ui.navMode=='explore_target'">
+                    <div class="input-group">
+                        <input type="text" id="nav_entity_source" class="form-control" entity-input placeholder="Source Entity" ng-model="query.source_name" item="query.source">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" type="button" ng-click="explore_source()"><span class="glyphicon glyphicon-search"></span></button>
+                        </span>
+                    </div>
+                </div>
+                <div class="form-group" ng-show="ui.navMode=='explain'">
+                    <p class="form-control-static"><span class="glyphicon glyphicon-transfer icon-large"></span></p>
+                </div>
+                <div class="form-group" ng-hide="ui.navMode=='explore_source'">
+                    <div class="input-group">
+                        <input type="text" id="nav_entity_target" class="form-control" entity-input placeholder="Target Entity" ng-model="query.target_name" item="query.target">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="button" ng-click="explore_target()"><span class="glyphicon glyphicon-search"></span></button>
+                    </span>
+                    </div>
+                </div>
+                <div class="form-group" ng-hide="ui.navMode=='explore_source'">
+                    <div class="input-group">
+                        <div class="input-group-addon"><span class="glyphicon glyphicon-signal"></span></div>
+                        <select id="nav_max_length" class="form-control" ng-model="query.maxLength" ng-options="l for l in config.maxLengths"></select>
+                    </div>
+                </div>
+                <a href class="btn btn-default" ng-click="switchExplainMode()" ng-hide="ui.navMode=='explain'"><span class="glyphicon glyphicon-plus"></span> Another Entity?</a>
+                <a href class="btn btn-primary" ng-click="explain()" ng-show="ui.navMode=='explain'">Explain!</a>
+            </form>
+            <ul class="nav navbar-nav navbar-right">
+                <li ng-hide="auth.user"><a href ng-click="showAuthModal('Sign In')">Sign In</a></li>
+                <li ng-hide="auth.user"><a href ng-click="showAuthModal('Sign Up')">Sign Up</a></li>
+                <li ng-show="auth.user" class="dropdown">
+                    <a href class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span> {{auth.user.name}} <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href ng-click="showAuthModal('Sign Out')">Sign Out</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>

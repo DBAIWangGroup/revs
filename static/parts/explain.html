@@ -1,0 +1,265 @@
+<div class="full-center-outer" ng-show="state.querying_explain">
+    <div class="full-center-middle">
+        <div class="col-sm-4 col-sm-offset-4 col-xs-8 col-xs-offset-2">
+            <div class="progress">
+                <div class="progress-bar progress-bar-striped active" role="progressbar" style="width: 100%">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="graph-controller-wrapper" ng-hide="state.querying_explain">
+    <div class="graph-controller">
+        <div class="controller-container">
+            <ul class="nav nav-pills nav-stacked controller-nav">
+                <li class="active"><a href="#graph-configs" data-toggle="tab" ng-click="hide_controller(false)"><span class="glyphicon glyphicon-wrench"></span></a></li>
+                <li><a href="#view-configs" data-toggle="tab" ng-click="hide_controller(false)"><span class="glyphicon glyphicon-eye-open"></span></a></li>
+                <li><a href="#node-details" data-toggle="tab" ng-click="hide_controller(false)"><span class="glyphicon glyphicon-info-sign"></span></a></li>
+                <li><a href="#import-export" data-toggle="tab" ng-click="hide_controller(false)"><span class="glyphicon glyphicon-hdd"></span></a></li>
+                <li class="btn-toggle-controller btn-show"><a href ng-click="hide_controller(false)"><span class="glyphicon glyphicon-triangle-right"></span></a></li>
+                <li class="btn-toggle-controller btn-hide"><a href ng-click="hide_controller(true)"><span class="glyphicon glyphicon-triangle-left"></span></a></li>
+            </ul>
+            <div class="tab-content controller-content">
+                <div class="tab-pane fade in active" id="graph-configs">
+                    <div class="toolbars">
+                        <ul class="nav nav-tabs nav-justified">
+                            <li class="active"><a href="#predicate-controller" data-toggle="tab">Predicates</a></li>
+                            <li><a href="#type-controller" data-toggle="tab">Types</a></li>
+                        </ul>
+                    </div>
+                    <div class="tab-content">
+                        <div class="tab-pane fade in active" id="predicate-controller">
+                            <div class="toolbars clearfix">
+                                <div class="btn-toolbar pull-left">
+                                    <div class="btn-group" data-toggle="buttons">
+                                        <label class="btn"
+                                               ng-class="{active:auto_mode,'btn-success':auto_mode,'btn-default':!auto_mode}"
+                                               ng-click="auto_mode=true">
+                                            <input type="radio"> Auto On
+                                        </label>
+                                        <label class="btn"
+                                               ng-class="{active:!auto_mode,'btn-danger':!auto_mode,'btn-default':auto_mode}"
+                                               ng-click="auto_mode=false">
+                                            <input type="radio"> Auto Off
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="btn-toolbar pull-right">
+                                    <div class="btn-group" ng-show="auto_mode">
+                                        <button type="button" title="Zoom In" class="btn btn-default"
+                                                ng-click="zoomIn()"><span class="glyphicon glyphicon-zoom-in"></span>
+                                        </button>
+                                        <button type="button" title="Zoom Out" class="btn btn-default"
+                                                ng-click="zoomOut()"><span class="glyphicon glyphicon-zoom-out"></span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table table-striped table-bordered table-condensed">
+                                    <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Predicate</th>
+                                        <th>Score</th>
+                                        <th>Active <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="bottom" title="Only active predicates will be used in partition algorithm"></span></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr ng-repeat="item in predicate_priority">
+                                        <td>{{$index + 1}}</td>
+                                        <td>{{clean_label(item.predicate)}}</td>
+                                        <td>{{item.score}}</td>
+                                        <td>
+                                            <input type="checkbox" ng-model="item.active"
+                                                   ng-disabled="auto_mode" ng-click="update_graph()">
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="type-controller">
+                            <p>
+                                <strong>Type Hierarchy</strong>
+                                <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="bottom" title="Only selected types will be considered in the initial partitioning operation"></span>
+                            </p>
+                            <ul class="list-group">
+                                <li ng-repeat="item in type_hierarchy_view"
+                                    class="list-group-item clearfix list-group-item-sm">
+                                    <span ng-style="{'margin-left': item.depth * 20}" class="pull-left">{{ clean_label(item.id) }}</span>
+                                    <div class="pull-right">
+                                        <input type="checkbox" ng-model="item.data.active"
+                                               ng-disabled="item.data.locked" ng-click="update_graph()">
+                                    </div>
+                                    <span class="badge badge-type-count">{{ item.data.count }}</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="view-configs">
+                    <h3 class="page-header"><span class="glyphicon glyphicon-th"></span> Layout</h3>
+                    <div class="form-container">
+                        <form class="form-horizontal">
+                            <div class="form-group">
+                                <label for="layout-name" class="col-sm-4 control-label">Layout Name</label>
+                                <div class="col-sm-8">
+                                    <select class="form-control" id="layout-name" ng-model="layout" ng-options="layout.name for layout in layouts" ng-change="update_layout()"></select>
+                                </div>
+                            </div>
+                            <div class="from-group">
+                                <button type="button" class="btn btn-block btn-default" ng-click="update_layout()"><span class="glyphicon glyphicon-repeat"></span> Redo Layout</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="node-details">
+                    <div ng-show="!focusedItem" class="vertical-center-block">
+                        <div class="well text-center">
+                            <h1 class="glyphicon glyphicon-question-sign"></h1>
+                            <p>Click an Item in the Graph to check its details</p>
+                        </div>
+                    </div>
+                    <div ng-show="focusedItem.isNode() && !focusedItem.data('is_compound')">
+                        <h3 class="page-header word-break-all">
+                            <span class="glyphicon glyphicon-map-marker"></span>
+                            {{focusedItem.data('name')}}
+                            <button class="btn btn-default pull-right" title="Check More Details" ng-click="open_explore_window(focusedItem)"><span class="glyphicon glyphicon-search"></span></button>
+                        </h3>
+                        <p><strong>Type:</strong> <span>{{clean_label(type_dict[focusedItem.data('id')][0])}}</span></p>
+                        <p><strong>Neighbour List</strong> <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="bottom" title="Only neighbours in the current query scope are displayed"></span></p>
+                        <div class="table-responsive">
+                            <table class="table table-striped table-bordered table-condensed">
+                                <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Predicate</th>
+                                    <th>Node</th>
+                                    <th>Locate</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr ng-repeat="edge in view_model.adj_lists[focusedItem.data('id')]">
+                                    <td>{{$index + 1}}</td>
+                                    <td><span class="path-predicate" ng-class="{'left':!edge.is_outgoing, 'right':edge.is_outgoing}">{{clean_label(edge.predicate)}}</span></td>
+                                    <td class="word-break-all">{{clean_compound_label(view_model.label_dict[edge.node])}}</td>
+                                    <td><button class="btn btn-sm btn-default btn-locate-edge" ng-click="highlight_edge(focusedItem.data('id'), edge)"><span class="glyphicon glyphicon-circle-arrow-right"></span></button></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div ng-show="focusedItem.isNode() && focusedItem.data('is_compound')">
+                        <h3 class="page-header word-break-all">
+                            <span class="glyphicon glyphicon-certificate"></span>
+                            {{focusedItem.data('name')}}
+                        </h3>
+                        <p><strong>Sub Node List</strong></p>
+                        <div class="table-responsive">
+                            <table class="table table-striped table-bordered table-condensed table-hover-emphasize">
+                                <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Node</th>
+                                    <th>Type</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr ng-repeat="node in focusedItem.data('nodes')"
+                                    ng-mouseenter="highlightInnerNode(focusedItem.data('id'), node)"
+                                    ng-mouseleave="highlightInnerNode(focusedItem.data('id'), node, true)">
+                                    <td>{{$index + 1}}</td>
+                                    <td>{{clean_label(node)}}</td>
+                                    <td>{{clean_label(type_dict[node][0])}}</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div ng-show="focusedItem.isEdge()">
+                        <h3 class="page-header word-break-all">
+                            <span class="glyphicon glyphicon-resize-horizontal"></span>
+                            {{focusedItem.data('name')}}
+                        </h3>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="import-export">
+                    <h3 class="page-header"><span class="glyphicon glyphicon-export"></span> Export</h3>
+                    <button type="button" class="btn btn-block btn-default" ng-click="saveImage()"><span class="glyphicon glyphicon-camera"></span> Save Current Viewport</button>
+                    <button type="button" class="btn btn-block btn-default" ng-click="saveGraphJson()"><span class="glyphicon glyphicon-file"></span> Save Original Graph (JSON)</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="graph-wrapper">
+    <div class="graph-quick-controller" ng-hide="state.querying_explain">
+        <button type="button" class="btn btn-default btn-sm" title="Reset Viewport" ng-click="reset_viewport()"><span class="glyphicon glyphicon-repeat"></span></button>
+    </div>
+    <div class="graph graph-explain"></div>
+    <div class="graph-footer">{{app.copyright}}</div>
+</div>
+<div class="container-fluid rankings-container" ng-hide="data.rankings == undefined">
+    <div class="show-rankings">
+        <a href class="btn btn-default btn-show-rankings">
+            <span class="glyphicon glyphicon-chevron-down"></span>
+            Check Rankings
+            <span class="glyphicon glyphicon-chevron-down"></span>
+        </a>
+    </div>
+    <div ng-show="data.rankings.pathInfoRanking">
+        <h1>Path Ranking</h1>
+        <div class="table-responsive">
+            <table class="table table-hover table-striped table-bordered table-condensed">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Path</th>
+                    <th ng-show="auth.user.role=='admin'">Comment</th>
+                    <th ng-show="auth.user">Score</th>
+                    <th ng-show="auth.user">Do you like it?</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="r in data.rankings.pathInfoRanking">
+                    <td>{{$index+1}}</td>
+                    <td path-diagram ng-init="p = r.object"></td>
+                    <td ng-show="auth.user.role=='admin'">
+                        <pre class="simple-pre">{{r.comment}}</pre>
+                    </td>
+                    <td ng-show="auth.user" class="score"><input ng-model="r.score" type="text" score-input></td>
+                    <td ng-show="auth.user"><input ng-model="r.rating" type="text" rating-input></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div ng-show="data.rankings.patternInfoRanking">
+        <h1>Pattern Ranking</h1>
+        <div class="table-responsive">
+            <table class="table table-hover table-striped table-bordered table-condensed">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Pattern</th>
+                    <th ng-show="auth.user.role=='admin'">Score</th>
+                    <th ng-show="auth.user.role=='admin'">Comment</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="r in data.rankings.patternInfoRanking">
+                    <td>{{$index+1}}</td>
+                    <td>
+                        <div ng-repeat="p in r.object" path-diagram></div>
+                    </td>
+                    <td ng-show="auth.user.role=='admin'">{{r.score}}</td>
+                    <td ng-show="auth.user.role=='admin'">
+                        <pre class="simple-pre">{{r.comment}}</pre>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
