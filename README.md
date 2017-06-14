@@ -91,12 +91,19 @@ Edit the `config.json` file to change the following settings according to your s
 1. Create Python virtual enviroment
 
     ```bash
-    virtualenv -p python3 VENV_HOME && source VENV_HOME/bin/activate
+    virtualenv -p python3 VENV_HOME
+    source VENV_HOME/bin/activate
     ```
     
     You may put this `VENV_HOME` at any place you like.
+    
+2. Upgrade `pip` to the latest version
+    
+    ```bash
+    pip install -U pip
+    ```
 
-2. Install Python dependency packages
+3. Install Python dependency packages
 
     ```bash
     cd SOURCE_FOLDER
