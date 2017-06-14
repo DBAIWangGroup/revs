@@ -3,11 +3,23 @@
 # REVS
 
 ## Introduction
+
 REVS(Relatedness Extraction & Visualization System) is a web-based system to extract and visualize the relatedness of a pair of queried entities in a knowledge graph.
 
-## Prerequisites
+## Live Demonstration
 
-- Python 3
+We provide a live demonstration website [here](http://kg.cse.unsw.edu.au/apps/revs/). 
+
+**However**, due to a potential heavy load on the query processing and some security risks, we do not guarantee that this website is available all the time. When it is unavailable, you may read the following sections and install REVS in your own system. 
+
+## Installation
+
+### Check Prerequisites
+
+- Python 3 & Virtualenv
+
+  We will use `virtualenv` to create a virtual python 3 environment. Make sure you have installed it in your system. 
+
 - Postgres 9.4+
   
   Create a new relational database for storing and querying the knowledge graph. 
@@ -18,9 +30,9 @@ REVS(Relatedness Extraction & Visualization System) is a web-based system to ext
 
 - ElasticSearch 5.4+
 
-  Create a new index for entity name auto-completion.
+  This enables the entity name auto-completion. You do not need to do any initializations right now.  
 
-## Configuration
+### Edit Configurations
 
 Edit the `config.json` file to change the following settings according to your system environment.
 
@@ -51,7 +63,7 @@ Edit the `config.json` file to change the following settings according to your s
       },
       ```
 
-## Prepare Dataset
+### Import Datasets
 
 1. Download DBpedia (e.g. [DBpedia-2016-04](http://wiki.dbpedia.org/downloads-2016-04)) or any other knowledge graphs with `NT/TTL` format. We only need the following 3 types of data files.
  
@@ -86,7 +98,7 @@ Edit the `config.json` file to change the following settings according to your s
    
    Use your real parameters for accessing the Postgres.
 
-## Setup Environment
+### Setup Environment
 
 1. Create Python virtual enviroment
 
@@ -110,9 +122,9 @@ Edit the `config.json` file to change the following settings according to your s
     pip install -r requirements.txt
     ```
     
-## Other Initializations
+### Initialize Other Components
 
-1. Build entity index on ElasticSearch
+1. Build entity index in ElasticSearch
 
    ```bash
    source VENV_HOME/bin/activate # if you have not activated the virtual environment
@@ -121,13 +133,19 @@ Edit the `config.json` file to change the following settings according to your s
    python ./scripts/index_entities.py
    ```
     
-## Start Server
+### Start REVS server
 
    ```bash
    source VENV_HOME/bin/activate # if you have not activated the virtual environment
    cd SOURCE_FOLDER
    python server.py
    ```
+   
+   Then, open [http://localhost:8055](http://localhost:8055) in your browser to access it.
+   
+## Resources
+
+  Please check the [wiki](https://github.com/DBWangGroupUNSW/revs/wiki) for any other resources, e.g. the **questions** we used in our user-based evaluation.
 
 ## LICENSE
     
