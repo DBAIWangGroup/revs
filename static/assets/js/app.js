@@ -267,7 +267,7 @@
     '$scope', '$location', '$http', function($scope, $location, $http) {
       $scope.app = {
         name: 'REVS',
-        copyright: '',
+        copyright: 'Copyright © Yukai Miao, 2017. Supervised by Prof. Wei Wang and Dr. Jianbin Qin, UNSW.',
         quote: {
           author: 'Christopher Strachey',
           title: 'A letter to Alan Turing, 1954',
