@@ -8,7 +8,7 @@ REVS(Relatedness Extraction & Visualization System) is a web-based system to ext
 
 ## Live Demonstration
 
-We provide a live demonstration website [here](http://kg.cse.unsw.edu.au/apps/revs/). 
+We provide a live demonstration website [here](https://kg.cse.unsw.edu.au/apps/revs/). 
 
 **However**, due to a potential heavy load on the query processing and some security risks, we do not guarantee that this website is available all the time. When it is unavailable, you may read the following sections and install REVS in your own system. 
 
