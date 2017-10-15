@@ -146,6 +146,12 @@ Edit the `config.json` file to change the following settings according to your s
 ## Resources
 
   Please check the [wiki](https://github.com/DBWangGroupUNSW/revs/wiki) for any other resources, e.g. the **questions** we used in our user-based evaluation.
+  
+## Citation
+
+Please cite our paper as below if you are using the code or the resources in this repository.
+
+> Miao, Y., Qin, J. & Wang, W., 2017. Graph Summarization for Entity Relatedness Visualization. In Proceedings of the 40th International ACM SIGIR Conference on Research and Development in Information Retrieval. SIGIR ’17. New York, NY, USA: ACM, pp. 1161–1164.
 
 ## LICENSE
     
