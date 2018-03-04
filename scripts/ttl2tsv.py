@@ -1,7 +1,7 @@
 #!/usr/bin/python
 
-import sys
 import os
+import sys
 
 
 def convert(ttl_file):
@@ -15,11 +15,27 @@ def convert(ttl_file):
     with open(ttl_file) as f_ttl:
         with open(tsv_file, 'w') as f_tsv:
             for line in f_ttl:
+                line = line.strip()
                 if line.startswith('#'):
                     continue
                 if line.startswith('@'):
                     raise NotImplementedError("@ directive cannot be digested now")
-                f_tsv.write('\t'.join(line.split()[:3]))
+                assert line[-1] == '.', line
+                line = line[:-1].strip()
+                predicate_start = None
+                object_start = None
+                for pos, ch in enumerate(line):
+                    if ch == ' ':
+                        if predicate_start is None:
+                            predicate_start = pos + 1
+                            continue
+                        if object_start is None:
+                            object_start = pos + 1
+                            break
+                subject = line[:predicate_start - 1]
+                predicate = line[predicate_start:object_start - 1]
+                obj = line[object_start:]
+                f_tsv.write('\t'.join((subject, predicate, obj)))
                 f_tsv.write('\n')
 
 
