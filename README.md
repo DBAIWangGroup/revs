@@ -86,7 +86,7 @@ Edit the `config.json` file to change the following settings according to your s
 
    ```bash
    cd DATA_FOLDER
-   cat instance_types.tsv | awk '{print $1"\t"$3}' > tmp.tsv && mv tmp.tsv instance_types.tsv
+   cut -f1,3 instance_types.tsv > tmp.tsv && mv tmp.tsv instance_types.tsv
    ```
 
 4. Import data into Postgres.
