@@ -1,4 +1,4 @@
 https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css
 https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css
-https://cdn.rawgit.com/kartik-v/bootstrap-star-rating/v4.0.1/css/star-rating.min.css
-https://cdn.rawgit.com/flatlogic/awesome-bootstrap-checkbox/master/awesome-bootstrap-checkbox.css
+https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-star-rating@v4.0.1/css/star-rating.min.css
+https://cdn.jsdelivr.net/gh/flatlogic/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css
