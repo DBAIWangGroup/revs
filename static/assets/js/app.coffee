@@ -655,9 +655,13 @@ angular.module 'app', ['ngRoute', 'ngSanitize']
         item.active = i <= $scope.zoom_level
     $scope.init_partition = core.get_init_partition($scope.nodes, $scope.source, $scope.target, $scope.type_dict, $scope.type_info)
     partition = $scope.init_partition
-    for item in $scope.predicate_priority
-      if item.active
-        partition = simulation.get_coarsest_partition($scope.adj_lists, $scope.nodes, partition, item.predicate)
+    while true
+      num_blocks = partition.length
+      for item in $scope.predicate_priority
+        if item.active
+          partition = simulation.get_coarsest_partition($scope.adj_lists, $scope.nodes, partition, item.predicate)
+      if(num_blocks == partition.length)  # no further refinement
+        break
     $scope.partition = partition
     $scope.view_model = core.compute_view_model($scope.adj_lists, $scope.type_dict, $scope.partition, $scope.view_model)
     update_graph_view()
